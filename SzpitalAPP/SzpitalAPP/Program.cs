@@ -37,8 +37,8 @@ void EventItemRemoved<T>(object? sender, T item)
     }
 }
 
-GetDataFromFile(employeeFilePath, employeeRepository);
-GetDataFromFile(patientFilePath, patientRepository);
+employeeRepository.GetDataFromFile(employeeFilePath, employeeRepository);
+patientRepository.GetDataFromFile(patientFilePath, patientRepository);
 
 employeeRepository.ItemAdded += EventItemAdded;
 employeeRepository.ItemRemoved += EventItemRemoved;
@@ -101,7 +101,7 @@ void AddEmployee()
     var pesel = Console.ReadLine()?.ToUpper();
     employeeRepository.Add(new Employee { Name = name, SurName = surname, Pesel = pesel });
     employeeRepository.Save();
-    SaveDataToFile(employeeFilePath, employeeRepository);
+    employeeRepository.SaveDataToFile(employeeFilePath, employeeRepository);
 }
 void AddPatient()
 {
@@ -113,7 +113,7 @@ void AddPatient()
     var pesel = Console.ReadLine()?.ToUpper();
     patientRepository.Add(new Patient { Name = name, SurName = surname, Pesel = pesel });
     patientRepository.Save();
-    SaveDataToFile (patientFilePath, patientRepository);
+    patientRepository.SaveDataToFile (patientFilePath, patientRepository);
 }
 void RemoveEmployee()
 {
@@ -164,36 +164,4 @@ void WriteAllPatients()
         Console.WriteLine(item);
     }
 }
-void SaveDataToFile<T>(string filePath, SqlRepository<T> repository) where T : class, IPerson, new()
-{
-    var items = JsonSerializer.Serialize<List<T>>(repository.GetAll().ToList());
 
-    File.WriteAllText(filePath, items);
-
-    Console.WriteLine($"Zapisano:{items}");
-
-    foreach (var item in repository.GetAll())
-    {
-        Console.WriteLine(item);
-    }
-}
-void GetDataFromFile<T>(string filePath, SqlRepository<T> repository) where T : class, IPerson, new()
-{
-    if (File.Exists(filePath))
-    {
-        var items = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filePath));
-
-        if (items == null)
-        {
-            Console.WriteLine("Błąd odczytu danych z pliku", ConsoleColor.Red);
-            return;
-        }
-
-        foreach (var item in items)
-        {
-            repository.Add(item);
-        }
-
-        repository.Save();
-    }
-}

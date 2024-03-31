@@ -1,9 +1,8 @@
 ﻿using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 using SzpitalAPP.Data;
-using System.Security.Principal;
 using System.Text.Json;
-using System.Text;
+
 
 Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
 var employeeRepository = new SqlRepository<Employee>(new SzpitalDbContext());

@@ -3,47 +3,14 @@ using SzpitalAPP.Repository;
 using SzpitalAPP.Data;
 using System.Text.Json;
 
-
-Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
-var employeeRepository = new SqlRepository<Employee>(new SzpitalDbContext());
-var patientRepository = new SqlRepository<Patient>(new SzpitalDbContext());
-
 const string employeeFilePath = "employeeRepository.json";
 const string patientFilePath = "patientRepository.json";
-const string employeeLogFilePath = "employeeRepositoryLog.txt";
-const string patientLogFilePath = "patientRepositoryLog.txt";
 
-void EventItemAdded<T>(object? sender, T item)
-{
-    if (item.GetType() == typeof(Employee))
-    {
-        File.AppendAllText(employeeLogFilePath, $"{DateTime.Now} - Added new employee - [{item}]\n");
-    }
-    else
-    {
-        File.AppendAllText(patientLogFilePath, $"{DateTime.Now} - Added new order - [{item}]\n");
-    }
-}
-
-void EventItemRemoved<T>(object? sender, T item)
-{
-    if (item.GetType() == typeof(Employee))
-    {
-        File.AppendAllText(employeeLogFilePath, $"{DateTime.Now} - Employee deleted - [{item}]\n");
-    }
-    else
-    {
-        File.AppendAllText(patientLogFilePath, $"{DateTime.Now} - Order deleted - [{item}]\n");
-    }
-}
-
-employeeRepository.GetDataFromFile(employeeFilePath, employeeRepository);
-patientRepository.GetDataFromFile(patientFilePath, patientRepository);
-
-employeeRepository.ItemAdded += EventItemAdded;
-employeeRepository.ItemRemoved += EventItemRemoved;
-patientRepository.ItemAdded += EventItemAdded;
-patientRepository.ItemRemoved += EventItemRemoved;
+Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
+var employeeRepository = new Filerepository<Employee>(employeeFilePath);
+var patientRepository = new Filerepository<Patient>(patientFilePath);
+employeeRepository.GetData();
+patientRepository.GetData();
 
 bool exitKey = false;
 while (!exitKey)
@@ -101,7 +68,6 @@ void AddEmployee()
     var pesel = Console.ReadLine()?.ToUpper();
     employeeRepository.Add(new Employee { Name = name, SurName = surname, Pesel = pesel });
     employeeRepository.Save();
-    employeeRepository.SaveDataToFile(employeeFilePath, employeeRepository);
 }
 void AddPatient()
 {
@@ -113,7 +79,6 @@ void AddPatient()
     var pesel = Console.ReadLine()?.ToUpper();
     patientRepository.Add(new Patient { Name = name, SurName = surname, Pesel = pesel });
     patientRepository.Save();
-    patientRepository.SaveDataToFile (patientFilePath, patientRepository);
 }
 void RemoveEmployee()
 {
@@ -124,7 +89,7 @@ void RemoveEmployee()
         return;
     }
     var allEmployees = employeeRepository.GetAll().ToList();
-    var employeeToRemove = allEmployees.FirstOrDefault(emp => emp.SurName == peselToRemove);
+    var employeeToRemove = allEmployees.FirstOrDefault(emp => emp.Pesel == peselToRemove);
     if (employeeToRemove != null)
     {
         employeeRepository.Remove(employeeToRemove);

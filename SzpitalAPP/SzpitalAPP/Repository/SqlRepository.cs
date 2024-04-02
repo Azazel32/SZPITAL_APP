@@ -46,38 +46,5 @@ namespace SzpitalAPP.Repository
             return _dbSet.OrderBy(item => item.Id).ToList();
         }
 
-        public void SaveDataToFile<T>(string filePath, SqlRepository<T> repository) where T : class, IPerson, new()
-        {
-            var items = JsonSerializer.Serialize<List<T>>(repository.GetAll().ToList());
-
-            File.WriteAllText(filePath, items);
-
-            Console.WriteLine($"Zapisano:{items}");
-
-            foreach (var item in repository.GetAll())
-            {
-                Console.WriteLine(item);
-            }
-        }
-        public void GetDataFromFile<T>(string filePath, SqlRepository<T> repository) where T : class, IPerson, new()
-        {
-            if (File.Exists(filePath))
-            {
-                var items = JsonSerializer.Deserialize<List<T>>(File.ReadAllText(filePath));
-
-                if (items == null)
-                {
-                    Console.WriteLine("Błąd odczytu danych z pliku", ConsoleColor.Red);
-                    return;
-                }
-
-                foreach (var item in items)
-                {
-                    repository.Add(item);
-                }
-
-                repository.Save();
-            }
-        }
     }
 }

@@ -7,8 +7,8 @@ const string employeeFilePath = "employeeRepository.json";
 const string patientFilePath = "patientRepository.json";
 
 Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
-var employeeRepository = new Filerepository<Employee>(employeeFilePath);
-var patientRepository = new Filerepository<Patient>(patientFilePath);
+var employeeRepository = new RepositoryInFile<Employee>(employeeFilePath);
+var patientRepository = new RepositoryInFile<Patient>(patientFilePath);
 employeeRepository.GetData();
 patientRepository.GetData();
 

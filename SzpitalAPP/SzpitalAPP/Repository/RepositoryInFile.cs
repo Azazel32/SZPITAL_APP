@@ -38,7 +38,7 @@ namespace SzpitalAPP.Repository
 
             }
         }
-        
+
         public void Save()
         {
             File.Delete(file);
@@ -87,6 +87,7 @@ namespace SzpitalAPP.Repository
             }
             return _items;
         }
+        public int Count { get { return _items.Count; } }
     }
 
 }

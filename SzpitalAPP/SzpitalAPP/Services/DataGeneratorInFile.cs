@@ -1,27 +1,37 @@
 ﻿
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
+using SzpitalAPP.Repository.Extensions;
 
 namespace SzpitalAPP.Services
 {
     public class DataGeneratorInFile : DataGenerator
     {
-        private readonly IRepository<Employee> _employees;
+        
+        private readonly IRepository<Doctor> _doctors;
         private readonly IRepository<Patient> _patients;
-        public DataGeneratorInFile(IRepository<Employee> employeeRepository,IRepository<Patient> patientRepository) 
+        public DataGeneratorInFile(IRepository<Doctor> employeeRepository,IRepository<Patient> patientRepository) 
         {
-            _employees = employeeRepository;
+            _doctors = employeeRepository;
             _patients= patientRepository;
         }
-        public void AdEmployess()
+        public override void AddDoctors()
         {
-            if(_employees.)
+            _doctors.GetData();
+            if(_doctors.CountList()==0)
             {
-
+                var employess = GetDoctors();
+                _doctors.AddBatch(employess);
             }
         }
-        public void AddPatients()
+        public override void AddPatients()
         {
+            _patients.GetData();
+            if( _patients.CountList()==0)
+            {
+                var patients =GetPatients();    
+                _patients.AddBatch(patients);
+            }
 
         }
     }

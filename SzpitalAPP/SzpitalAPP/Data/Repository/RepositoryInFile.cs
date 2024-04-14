@@ -61,6 +61,18 @@ namespace SzpitalAPP.Repository
             _items.Add(item);
             ItemAdded?.Invoke(this, item);
         }
+        public T? GetDataById(int id)
+        {
+            var itemById = _items.SingleOrDefault(x => x.Id == id);
+            if (itemById == null)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Object {typeof(T).Name} with id {id} not found.");
+                Console.ResetColor();
+            }
+            return itemById;
+
+        }
 
         public IEnumerable<T> GetAll()
         {
@@ -87,7 +99,10 @@ namespace SzpitalAPP.Repository
             }
             return _items;
         }
-        public int Count { get { return _items.Count; } }
+        public int CountList()
+        {
+            return _items.Count;
+        }
     }
 
 }

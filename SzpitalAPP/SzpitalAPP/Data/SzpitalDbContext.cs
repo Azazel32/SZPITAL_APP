@@ -1,5 +1,6 @@
-﻿using SzpitalAPP.Person;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SzpitalAPP.Data.Person;
+
 namespace SzpitalAPP.Data
 {
     public class SzpitalDbContext : DbContext

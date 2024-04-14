@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SzpitalAPP.Data.Person;
+using SzpitalAPP.Person;
 
 namespace SzpitalAPP.Data
 {
     public class SzpitalDbContext : DbContext
     {
-        public DbSet<Employee> Employee => Set<Employee>();
+        public DbSet<Doctor> Employee => Set<Doctor>();
         public DbSet<Patient> Patient => Set<Patient>();
           
 

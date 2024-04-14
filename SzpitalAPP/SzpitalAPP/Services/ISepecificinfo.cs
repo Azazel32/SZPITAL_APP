@@ -8,6 +8,6 @@ namespace SzpitalAPP.Services
 {
     public interface ISepecificinfo
     {
-        public void GetspecyficInfo();
+        public void GetspecificInfo();
     }
 }

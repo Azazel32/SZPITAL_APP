@@ -3,7 +3,7 @@ using System.Text.Json;
 using SzpitalAPP.Person;
 namespace SzpitalAPP.Repository
 {
-    public class SqlRepository<T> : IRepository<T> where T:class,IPerson,new()
+    public class SqlRepository<T> : IRepository<T> where T : class, IPerson, new()
     {
         private readonly DbSet<T> _dbSet;
         private readonly DbContext _dbContext;
@@ -15,27 +15,18 @@ namespace SzpitalAPP.Repository
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
         }
-        public T? GetById(int id)
-        {
-            return _dbSet.Find(id);
-        }
-        public T? GetByData(string name,string surname)
-        {
-            return _dbSet.Find(name, surname);
-        }
-
         public void Add(T item)
         {
             _dbSet.Add(item);
+            _dbContext.SaveChanges();
             ItemAdded?.Invoke(this, item);
         }
-
         public void Remove(T item)
         {
             _dbSet.Remove(item);
+            _dbContext?.SaveChanges();
             ItemRemoved?.Invoke(this, item);
         }
-
         public void Save()
         {
             _dbContext.SaveChanges();
@@ -46,5 +37,19 @@ namespace SzpitalAPP.Repository
             return _dbSet.OrderBy(item => item.Id).ToList();
         }
 
+        public IEnumerable<T> GetData()
+        {
+            return _dbSet.ToList();
+        }
+
+        public int CountList()
+        {
+            return GetData().ToList().Count;
+        }
+
+        public T GetDataById(int id)
+        {
+            return _dbSet.Find(id);
+        }
     }
 }

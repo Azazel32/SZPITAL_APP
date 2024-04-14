@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 
@@ -12,11 +13,13 @@ namespace SzpitalAPP.Services
     {
         private readonly IRepository<Doctor> _doctors;
         private readonly IRepository<Patient> _patients;
+        private readonly ISepecificinfo _sepecificinfo;
 
-        public UserComunication(IRepository<Doctor> doctorsReposiotry, IRepository<Patient> patientsRepository)
+        public UserComunication(IRepository<Doctor> doctorsReposiotry, IRepository<Patient> patientsRepository,ISepecificinfo sepecificinfo)
         {
             _doctors = doctorsReposiotry;
             _patients = patientsRepository;
+            _sepecificinfo = sepecificinfo;
         }
         public override void Task()
         {
@@ -93,8 +96,7 @@ namespace SzpitalAPP.Services
                             }
                             break;
                         case "5":
-
-                            Console.WriteLine(" ");
+                            _sepecificinfo.GetspecificInfo();
                             break;
                         case "Q":
                             exitKey = true;
@@ -107,25 +109,63 @@ namespace SzpitalAPP.Services
                 }
                 void AddDoctor()
                 {
-                    Console.WriteLine("Podaj imie pracownika:");
-                    var name = Console.ReadLine()?.ToUpper();
-                    Console.WriteLine("Podaj nazwisko pracownika:");
-                    var surname = Console.ReadLine()?.ToUpper();
-                    Console.WriteLine("Podaj pesel pracownika:");
-                    var pesel = Console.ReadLine()?.ToUpper();
-                    employeeRepository.Add(new Doctor { Name = name, SurName = surname, Pesel = pesel });
-                    employeeRepository.Save();
+                    var name = GetInputFromUser("Name:");
+                    EmptyInputWarning(ref name, "Name:");
+                    var surName = GetInputFromUser("Surname:");
+                    EmptyInputWarning(ref surName, "Surname:");
+                    var pesel = GetInputFromUser("PESEL:");
+                    EmptyInputWarning(ref pesel, "PESEL:");
+                    var birthday =DateTime.Parse(GetInputFromUser("Birtday year:"));
+                    EmptyInputWarning(ref name, "Birthday year:");
+                    var city = GetInputFromUser("City:");
+                    EmptyInputWarning(ref name, "City:");
+                    var country = GetInputFromUser("Country:");
+                    EmptyInputWarning(ref name, "Country:");
+                    var salary = decimal.Parse(GetInputFromUser("Salary:"));
+                    EmptyInputWarning(ref name, "Salary:");
+                    while (true)
+                    {
+                        var branch = GetInputFromUser("Cardiology = 1, Pulmonology = 2,Ortopedics = 3,Gastrology = 4,OIOM = 5");
+                        int branchValue;
+                        var isParsed = int.TryParse(branch, out branchValue);
+                        if (isParsed && branchValue >0 && branchValue<=5)
+                        {
+                            var newDoctor = new Doctor { Name = name, SurName = surName, Pesel = pesel, Birthday = birthday, City = city, Country = country, Salary = salary, Branch = (Branch)branchValue };
+                            _doctors.Add(newDoctor);
+                            _doctors.Save();
+                            break;
+                        }
+                    }
                 }
                 void AddPatient()
                 {
-                    Console.WriteLine("Podaj imie pacjenta:");
-                    var name = Console.ReadLine()?.ToUpper();
-                    Console.WriteLine("Podaj nazwisko pacjenta:");
-                    var surname = Console.ReadLine()?.ToUpper();
-                    Console.WriteLine("Podaj pesel pacjenta:");
-                    var pesel = Console.ReadLine()?.ToUpper();
-                    patientRepository.Add(new Patient { Name = name, SurName = surname, Pesel = pesel });
-                    patientRepository.Save();
+                    var name = GetInputFromUser("Name:");
+                    EmptyInputWarning(ref name, "Name:");
+                    var surName = GetInputFromUser("Surname:");
+                    EmptyInputWarning(ref surName, "Surname:");
+                    var pesel = GetInputFromUser("PESEL:");
+                    EmptyInputWarning(ref pesel, "PESEL:");
+                    var birthday = DateTime.Parse(GetInputFromUser("Birtday year:"));
+                    EmptyInputWarning(ref name, "Birthday year:");
+                    var city = GetInputFromUser("City:");
+                    EmptyInputWarning(ref name, "City:");
+                    var country = GetInputFromUser("Country:");
+                    EmptyInputWarning(ref name, "Country:");
+                    while (true)
+                    {
+                        var branch = GetInputFromUser("Cardiology = 1, Pulmonology = 2,Ortopedics = 3,Gastrology = 4,OIOM = 5");
+                        int branchValue;
+                        var isParsed = int.TryParse(branch, out branchValue);
+                        if (isParsed && branchValue > 0 && branchValue <= 5)
+                        {
+                            WriteAllPerson(_doctors);
+                            var doctor = GetPersonById(_doctors);
+                            var newPatient = new Patient { Name = name, SurName = surName, Pesel = pesel, Birthday = birthday, City = city, Country = country, Branch = (Branch)branchValue,Doctor= (Doctor)doctor };
+                            _patients.Add(newPatient);
+                            _patients.Save();
+                            break;
+                        }
+                    }
                 }
                 T? GetPersonById<T>(IRepository<T> repository) where T : class, IPerson
                 {

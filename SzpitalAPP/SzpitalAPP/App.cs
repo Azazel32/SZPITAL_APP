@@ -15,7 +15,9 @@ namespace SzpitalAPP
         }
         public void Run()
         {
-           
+           _dataGenerator.AddDoctors();
+           _dataGenerator.AddPatients();
+           _userCommunication.Task();
 
         }
     }

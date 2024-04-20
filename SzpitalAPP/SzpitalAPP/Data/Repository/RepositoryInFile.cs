@@ -8,17 +8,17 @@ namespace SzpitalAPP.Repository
     public class RepositoryInFile<T> : IRepository<T> where T : class, IPerson
     {
         const string LogFilePath = "Log.txt";
-        private readonly string file;
+        private readonly string file = $"{typeof(T).Name}Repository.json";
         private List<T> _items = new List<T>();
         private int lastUsedId = 1;
         public event EventHandler<T>? ItemAdded;
         public event EventHandler<T>? ItemRemoved;
 
 
-        public RepositoryInFile(string FileName)
+        public RepositoryInFile()
         {
-            file = FileName;
-            GetData();
+
+            
             this.ItemAdded += EventItemAdded;
             this.ItemRemoved += EventItemRemoved;
         }
@@ -83,17 +83,21 @@ namespace SzpitalAPP.Repository
             _items.Remove(item);
             ItemRemoved?.Invoke(this, item);
         }
-        public IEnumerable<T> GetData()
+        public IEnumerable<T> Read()
         {
             if (File.Exists(file))
             {
+
                 var objectsSerialized = File.ReadAllText(file);
-                var deserializedObjects = JsonSerializer.Deserialize<IEnumerable<T>>(objectsSerialized);
-                if (deserializedObjects != null)
+                if (objectsSerialized != "")
                 {
-                    foreach (var item in deserializedObjects)
+                    var deserializedObjects = JsonSerializer.Deserialize<IEnumerable<T>>(objectsSerialized);
+                    if (deserializedObjects != null)
                     {
-                        _items.Add(item);
+                        foreach (var item in deserializedObjects)
+                        {
+                            _items.Add(item);
+                        }
                     }
                 }
             }

@@ -15,7 +15,7 @@ namespace SzpitalAPP.Person
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Id: {Id} , PESEL: {Pesel}");
             sb.AppendLine($"Name: {Name} , SurName: {SurName}");
-            sb.AppendLine($"Age: {DateTime.Now.Year - Birthday.Year} , BirthDay: {Birthday.ToShortDateString()}");
+            sb.AppendLine($"Age: {Age}"); 
             sb.AppendLine($"Country: {Country} , City: {City}");
             sb.AppendLine($"Job {Branch} , Salary: {Salary}");
             return sb.ToString();

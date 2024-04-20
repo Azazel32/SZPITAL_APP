@@ -37,14 +37,14 @@ namespace SzpitalAPP.Repository
             return _dbSet.OrderBy(item => item.Id).ToList();
         }
 
-        public IEnumerable<T> GetData()
+        public IEnumerable<T> Read()
         {
             return _dbSet.ToList();
         }
 
         public int CountList()
         {
-            return GetData().ToList().Count;
+            return Read().ToList().Count;
         }
 
         public T GetDataById(int id)

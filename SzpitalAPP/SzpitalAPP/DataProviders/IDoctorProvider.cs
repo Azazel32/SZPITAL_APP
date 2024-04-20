@@ -8,7 +8,7 @@ using SzpitalAPP.Person;
 
 namespace SzpitalAPP.Data
 {
-    public interface IPersonProvider
+    public interface IDoctorProvider
     {
         List<string> GetUniqueNationality();
         List<string> GetUniqueCity();
@@ -19,6 +19,5 @@ namespace SzpitalAPP.Data
         List<Doctor> GetDoctorsByName();
         List<Doctor> GetDoctorsByBranch();
         List<Branch> GetUniqueBranch();
-
     }
 }

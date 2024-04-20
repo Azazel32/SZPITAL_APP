@@ -10,17 +10,17 @@ using SzpitalAPP.Repository;
 
 namespace SzpitalAPP.DataProviders
 {
-    public class PersonProvider : IPersonProvider
+    public class DoctorProvider : IDoctorProvider
     {
         private readonly IRepository<Doctor> _doctorRepository;
-        public PersonProvider(IRepository<Doctor> repository)
+        public DoctorProvider(IRepository<Doctor> repository)
         {
             _doctorRepository = repository;
         }
         public List<Doctor> GetDoctorsByAge()
         {
             var doctors = _doctorRepository.GetAll();
-            return doctors.OrderBy(x => x.Birthday).ToList();
+            return doctors.OrderBy(x => x.Age).ToList();
         }
 
         public List<Doctor> GetDoctorsByBranch()
@@ -52,7 +52,6 @@ namespace SzpitalAPP.DataProviders
             var doctors = _doctorRepository.GetAll();
             return doctors.Select(x => x.Salary).Max();
         }
-
         public List<Branch> GetUniqueBranch()
         {
             var doctors = _doctorRepository.GetAll();

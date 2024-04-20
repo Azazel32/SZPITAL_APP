@@ -9,7 +9,7 @@ using SzpitalAPP.Repository;
 
 namespace SzpitalAPP.Services
 {
-    public class UserComunication : UserCommunicationBase
+    public class UserComunication : UserCommunicationBase,IUserCommunication
     {
         private readonly IRepository<Doctor> _doctors;
         private readonly IRepository<Patient> _patients;
@@ -23,14 +23,11 @@ namespace SzpitalAPP.Services
         }
         public override void Task()
         {
-            bool Close = false;
-            while (!Close)
-            {
-                const string employeeFilePath = "employeeRepository.json";
-                const string patientFilePath = "patientRepository.json";
+            
+            
                 Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
-                var employeeRepository = new RepositoryInFile<Doctor>(employeeFilePath);
-                var patientRepository = new RepositoryInFile<Patient>(patientFilePath);
+                var employeeRepository = new RepositoryInFile<Doctor>();
+                var patientRepository = new RepositoryInFile<Patient>();
                 bool exitKey = false;
                 while (!exitKey)
                 {
@@ -96,10 +93,20 @@ namespace SzpitalAPP.Services
                             }
                             break;
                         case "5":
-                            _sepecificinfo.GetspecificInfo();
+                        var choiceSpecInfo = GetInputFromUser("Show All Person - Press D to choice Doctor or press P to choice Patient").ToUpper();
+                        if (choiceSpecInfo == "D")
+                        {
+                            _sepecificinfo.GetspecificInfoForDoctor();
                             break;
+                        }
+                        else if (choiceSpecInfo == "P")
+                        {
+                            _sepecificinfo.GetspecificInfoForPatient();
+                            break;
+                        }
+                        break;
                         case "Q":
-                            exitKey = true;
+                            CloseAppSaveChanges();
                             break;
                         default:
                             Console.WriteLine("Blad: nie ma takiego polecenia");
@@ -115,7 +122,9 @@ namespace SzpitalAPP.Services
                     EmptyInputWarning(ref surName, "Surname:");
                     var pesel = GetInputFromUser("PESEL:");
                     EmptyInputWarning(ref pesel, "PESEL:");
-                    var birthday =DateTime.Parse(GetInputFromUser("Birtday year:"));
+                    int year;
+                    var birthday = int.TryParse(GetInputFromUser("Birtday year:"),out year );
+                    int Age = DateTime.Now.Year-year;
                     EmptyInputWarning(ref name, "Birthday year:");
                     var city = GetInputFromUser("City:");
                     EmptyInputWarning(ref name, "City:");
@@ -130,9 +139,8 @@ namespace SzpitalAPP.Services
                         var isParsed = int.TryParse(branch, out branchValue);
                         if (isParsed && branchValue >0 && branchValue<=5)
                         {
-                            var newDoctor = new Doctor { Name = name, SurName = surName, Pesel = pesel, Birthday = birthday, City = city, Country = country, Salary = salary, Branch = (Branch)branchValue };
+                            var newDoctor = new Doctor { Name = name, SurName = surName, Pesel = pesel, Age = Age, City = city, Country = country, Salary = salary, Branch = (Branch)branchValue };
                             _doctors.Add(newDoctor);
-                            _doctors.Save();
                             break;
                         }
                     }
@@ -145,7 +153,9 @@ namespace SzpitalAPP.Services
                     EmptyInputWarning(ref surName, "Surname:");
                     var pesel = GetInputFromUser("PESEL:");
                     EmptyInputWarning(ref pesel, "PESEL:");
-                    var birthday = DateTime.Parse(GetInputFromUser("Birtday year:"));
+                    int year;
+                    var birthday = int.TryParse(GetInputFromUser("Birtday year:"), out year);
+                    int Age = DateTime.Now.Year - year;
                     EmptyInputWarning(ref name, "Birthday year:");
                     var city = GetInputFromUser("City:");
                     EmptyInputWarning(ref name, "City:");
@@ -158,11 +168,8 @@ namespace SzpitalAPP.Services
                         var isParsed = int.TryParse(branch, out branchValue);
                         if (isParsed && branchValue > 0 && branchValue <= 5)
                         {
-                            WriteAllPerson(_doctors);
-                            var doctor = GetPersonById(_doctors);
-                            var newPatient = new Patient { Name = name, SurName = surName, Pesel = pesel, Birthday = birthday, City = city, Country = country, Branch = (Branch)branchValue,Doctor= (Doctor)doctor };
+                            var newPatient = new Patient { Name = name, SurName = surName, Pesel = pesel, Age = Age, City = city, Country = country, Branch = (Branch)branchValue };
                             _patients.Add(newPatient);
-                            _patients.Save();
                             break;
                         }
                     }
@@ -224,7 +231,31 @@ namespace SzpitalAPP.Services
                         Console.WriteLine(item);
                     }
                 }
+             bool CloseAppSaveChanges()
+            {
+                while (true)
+                {
+                    var choice = GetInputFromUser("Do you want to save changes?\nPress Y if YES\t\tPress N if NO").ToUpper();
+                    if (choice == "Y")
+                    {
+                        _doctors.Save();
+                        _patients.Save();
+                        WritelineColor("Changes successfully saved.", ConsoleColor.Green);
+                        exitKey = true;
+                        return exitKey;
+                    }
+                    else if (choice == "N")
+                    {
+                        exitKey = true;
+                        return exitKey;
+                    }
+                    else
+                    {
+                        WritelineColor("Please choose Yes or No:", ConsoleColor.Red);
+                    }
+                }
             }
         }
+        }
     }
-}
+

@@ -17,16 +17,16 @@ namespace SzpitalAPP.Services
         }
         public override void AddDoctors()
         {
-            _doctors.GetData();
+            _doctors.Read();
             if(_doctors.CountList()==0)
             {
-                var employess = GetDoctors();
-                _doctors.AddBatch(employess);
+                var doctors = GetDoctors();
+                _doctors.AddBatch(doctors);
             }
         }
         public override void AddPatients()
         {
-            _patients.GetData();
+            _patients.Read();
             if( _patients.CountList()==0)
             {
                 var patients =GetPatients();    

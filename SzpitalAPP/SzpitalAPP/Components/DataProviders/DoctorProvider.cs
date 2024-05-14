@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SzpitalAPP.Data;
 using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 
-namespace SzpitalAPP.DataProviders
+namespace SzpitalAPP.Components.DataProviders
 {
     public class DoctorProvider : IDoctorProvider
     {
@@ -55,7 +51,7 @@ namespace SzpitalAPP.DataProviders
         public List<Branch> GetUniqueBranch()
         {
             var doctors = _doctorRepository.GetAll();
-            return doctors.Select(x=>x.Branch).Distinct().ToList();
+            return doctors.Select(x => x.Branch).Distinct().ToList();
         }
 
         public List<string> GetUniqueCity()

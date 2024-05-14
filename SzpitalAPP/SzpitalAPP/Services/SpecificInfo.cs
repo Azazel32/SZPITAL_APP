@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SzpitalAPP.Data;
-using SzpitalAPP.DataProviders;
+using SzpitalAPP.Components.DataProviders;
 using SzpitalAPP.Person;
 
 namespace SzpitalAPP.Services

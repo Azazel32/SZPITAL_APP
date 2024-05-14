@@ -6,18 +6,16 @@ using System.Threading.Tasks;
 using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 
-namespace SzpitalAPP.Data
+namespace SzpitalAPP.Components.DataProviders
 {
-    public interface IDoctorProvider
+    public interface IPatientProvider
     {
         List<string> GetUniqueNationality();
         List<string> GetUniqueCity();
-        decimal GetMaxDoctorSalary();
-        List<Doctor> GetDoctorsByAge();
-        List<Doctor> GetDoctorsBySalary();
-        List<Doctor> GetDoctorsByCountry();
-        List<Doctor> GetDoctorsByName();
-        List<Doctor> GetDoctorsByBranch();
+        List<Patient> GetPatientsByAge();
+        List<Patient> GetPatientsByCountry();
+        List<Patient> GetPatientsByName();
+        List<Patient> GetPatientsByBranch();
         List<Branch> GetUniqueBranch();
     }
 }

@@ -7,7 +7,7 @@ using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 
-namespace SzpitalAPP.DataProviders
+namespace SzpitalAPP.Components.DataProviders
 {
     public class PatientProvider : IPatientProvider
     {

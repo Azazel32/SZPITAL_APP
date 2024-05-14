@@ -3,8 +3,8 @@ using SzpitalAPP;
 using SzpitalAPP.Repository;
 using SzpitalAPP.Person;
 using SzpitalAPP.Services;
-using SzpitalAPP.Data;
-using SzpitalAPP.DataProviders;
+using SzpitalAPP.Components.DataProviders;
+using SzpitalAPP.Components.CSVReader;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp,App>();
@@ -15,6 +15,7 @@ services.AddSingleton<ISepecificinfo,SpecificInfo>();
 services.AddSingleton<IRepository<Doctor>, RepositoryInFile<Doctor>>();
 services.AddSingleton<IRepository<Patient>, RepositoryInFile<Patient>>();
 services.AddSingleton<IDataGenerator, DataGeneratorInFile>();
+services.AddSingleton<ICsvReader, CsvReader>();
 
 
 var serviceProvider = services.BuildServiceProvider();

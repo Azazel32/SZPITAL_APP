@@ -13,12 +13,14 @@ namespace SzpitalAPP.Services
         private readonly IDoctorProvider _doctorProvider;
         private readonly IPatientProvider _patientProvider;
         
+        
         public SpecificInfo(IDoctorProvider doctorProvider, IPatientProvider patientProvider)
         {
             _doctorProvider = doctorProvider;
             _patientProvider = patientProvider;
+            
         }
-
+        
         public void GetspecificInfoForDoctor()
         {
             bool closeLoop = false;
@@ -126,7 +128,7 @@ namespace SzpitalAPP.Services
                 }
             }
         }
-
+        
         public override void Task()
         {
             throw new NotImplementedException();

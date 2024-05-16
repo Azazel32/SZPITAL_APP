@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SzpitalAPP.Components.CSVReader.Models;
 using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
@@ -16,6 +17,7 @@ namespace SzpitalAPP.Components.DataProviders
         {
             _patientRepository = repository;
         }
+        
 
         public List<Patient> GetPatientsByAge()
         {
@@ -57,5 +59,7 @@ namespace SzpitalAPP.Components.DataProviders
             var patients = _patientRepository.GetAll();
             return patients.Select(p => p.Country).Distinct().ToList();
         }
+
+        
     }
 }

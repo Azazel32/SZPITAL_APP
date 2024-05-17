@@ -21,8 +21,8 @@ namespace SzpitalAPP
         }
         public void Run()
         {
-            var hospital = _csvReader.ProcessedHospitals("hospitals.csv");
-            var local = _csvReader.ProcesedLocal("local.csv");
+            var hospital = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");
+            var local = _csvReader.ProcesedLocal("Resources\\Files\\local.csv");
             var groups = hospital.GroupBy(h=> new
             {
                 h.State

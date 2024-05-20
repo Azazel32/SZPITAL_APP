@@ -20,11 +20,10 @@ namespace SzpitalAPP.Components.CSVReader.Extesions
                     Regon = column[1],
                     Desc = column[2],
                     City = column[3],
-                    State = column[4],
-                    Mark = column[5],
-                    ExpiryDate = column[6],
-                    AwardingDate = column[7],
-                    UrlAddress = column[8]
+                    Mark = column[4],
+                    ExpiryDate = column[5],
+                    AwardingDate = column[6],
+                    UrlAddress = column[7]
                 };
             }
         }

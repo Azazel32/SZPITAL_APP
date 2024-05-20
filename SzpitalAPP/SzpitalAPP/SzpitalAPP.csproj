@@ -16,6 +16,15 @@
     <Folder Include="Components\DataProviders\Extensions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\Files\hospitals.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Files\local.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

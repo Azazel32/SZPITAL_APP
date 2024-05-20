@@ -12,7 +12,6 @@ namespace SzpitalAPP.Components.CSVReader.Models
         public string Regon { get; set; }
         public string Desc { get; set; }
         public string City { get; set; }    
-        public string State { get; set; }
         public string Mark { get; set; }
         public string ExpiryDate { get; set; }
         public string AwardingDate { get; set; }

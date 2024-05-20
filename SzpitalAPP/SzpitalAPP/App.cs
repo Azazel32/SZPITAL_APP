@@ -12,8 +12,8 @@ namespace SzpitalAPP
         private readonly IDataGenerator _dataGenerator;
         private readonly IUserCommunication _userCommunication;
         private readonly ICsvReader _csvReader;
-        
-        public App(IDataGenerator dataGenerator, IUserCommunication userCommunication,ICsvReader csvReader)
+
+        public App(IDataGenerator dataGenerator, IUserCommunication userCommunication, ICsvReader csvReader)
         {
             _userCommunication = userCommunication;
             _dataGenerator = dataGenerator;
@@ -21,30 +21,66 @@ namespace SzpitalAPP
         }
         public void Run()
         {
+            CreateXml();
+            QueryXml();
+            _dataGenerator.AddDoctors();
+            _dataGenerator.AddPatients();
+            _userCommunication.Task();
+            
+        }
+        private static void QueryXml()
+        {
+            var document = XDocument.Load("HospitalInCity.xml");
+            var Names = document.Element("Hospitals")?.Elements("Hospital").Select(x => x.Attribute("Desc")?.Value);
+            foreach (var item in Names)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        private void CreateXml()
+        {
             var hospital = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");
             var local = _csvReader.ProcesedLocal("Resources\\Files\\local.csv");
-            var groups = hospital.GroupBy(h=> new
+
+            var groupJoin = hospital.GroupJoin(local,
+                hospital => hospital.City,
+                local => local.City,
+                (key, g) =>
+                new
+                {
+                    local = key,
+                    hospital = g
+                });
+            foreach (var group in groupJoin)
             {
-                h.State
-            },(key,g)=> new
-            {
-                state = key.State,
-                city = g.Select(x=>x.City).ToList(),
-                nip = g.Select(x => x.Nip).ToList(),
-                regon = g.Select(x => x.Regon).ToList(),
-                desc = g.Select(x => x.Desc).ToList(),
-                expired = g.Select(x => x.ExpiryDate).ToList()
-            });
+                Console.WriteLine($"Miasto: {group.local.City}");
+                Console.WriteLine($"Ilosc:{group.hospital.Count()}");
+            }
+            var groups = hospital.GroupBy(x => x.City)
+                .Select(g => new
+                {
+                    Name = g.Key,
+                    Count = g.Select(c => c.Nip).Count(),
+                }
+            );
             var document = new XDocument();
-            var hospitalGroup = new XElement("Wojewodztwo", groups
-                .Select(g =>
-                new XElement("Hospital",
-                new XAttribute("City", g.city),
-                new XAttribute("NIP", g.nip),
-                new XAttribute("regon", g.regon),
-                new XAttribute("desc", g.desc),
-                new XAttribute("Expired", g.expired)
-                )));
+
+            var hospitalGroup = new XElement("Szpitale", groups
+               .Select(x => new XElement("Województwo",
+               new XAttribute("Ilość", x.Count)
+                   )));
+            var hospitalInCity = hospital.Join(local, x => x.City, x => x.City, (hospital, local) => new
+            {
+                local.State,
+                hospital.Desc,
+                hospital.Nip
+            });
+            var documnet3 = new XDocument();
+            var hospitalInCityToXml = new XElement("Hospitals", hospitalInCity
+                .Select(x => new XElement("Hospital",
+                new XAttribute("Woj", x.State),
+                new XAttribute("Desc", x.Desc),
+                new XAttribute("Nip", x.Nip))));
             var document2 = new XDocument();
             var hospitals = new XElement("Szpitale", hospital
                 .Select(g =>
@@ -59,10 +95,8 @@ namespace SzpitalAPP
             document2.Save("szpitale.xml");
             document.Add(hospitalGroup);
             document.Save("hospitalGroup.xml");
-           _dataGenerator.AddDoctors();
-           _dataGenerator.AddPatients();
-           _userCommunication.Task();
-
+            documnet3.Add(hospitalInCityToXml);
+            documnet3.Save("HospitalInCity.xml");
         }
     }
 }

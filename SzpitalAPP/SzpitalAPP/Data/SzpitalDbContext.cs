@@ -6,14 +6,14 @@ namespace SzpitalAPP.Data
 {
     public class SzpitalDbContext : DbContext
     {
-        public DbSet<Doctor> Employee => Set<Doctor>();
-        public DbSet<Patient> Patient => Set<Patient>();
-          
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public SzpitalDbContext(DbContextOptions<SzpitalDbContext> options)
+            :base(options) 
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseInMemoryDatabase("StorageAppDb");
         }
+        public DbSet<Patient> patients { get; set; }
+        public DbSet<Hospital> hospitals { get; set;}
+        public DbSet<Doctor> doctors { get; set; }
     }
+
+ 
 }

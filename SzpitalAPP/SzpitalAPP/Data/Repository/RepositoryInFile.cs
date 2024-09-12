@@ -9,7 +9,7 @@ namespace SzpitalAPP.Repository
     {
         const string LogFilePath = "Log.txt";
         private readonly string file = $"{typeof(T).Name}Repository.json";
-        private List<T> _items = new List<T>();
+        private readonly List<T> _items = new List<T>();
         private int lastUsedId = 1;
         public event EventHandler<T>? ItemAdded;
         public event EventHandler<T>? ItemRemoved;
@@ -21,6 +21,10 @@ namespace SzpitalAPP.Repository
             
             this.ItemAdded += EventItemAdded;
             this.ItemRemoved += EventItemRemoved;
+        }
+        public void Update(T item)
+        {
+            this._items.Add(item);
         }
         void EventItemAdded(object? sender, T item)
         {
@@ -73,7 +77,7 @@ namespace SzpitalAPP.Repository
             return itemById;
 
         }
-
+        
         public IEnumerable<T> GetAll()
         {
             return _items.ToList();

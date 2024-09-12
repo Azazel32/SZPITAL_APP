@@ -5,6 +5,9 @@ using SzpitalAPP.Person;
 using SzpitalAPP.Services;
 using SzpitalAPP.Components.DataProviders;
 using SzpitalAPP.Components.CSVReader;
+using SzpitalAPP.Data;
+using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp,App>();
@@ -12,10 +15,11 @@ services.AddSingleton<IUserCommunication,UserComunication>();
 services.AddSingleton<IDoctorProvider, DoctorProvider>();
 services.AddSingleton<IPatientProvider,PatientProvider>();
 services.AddSingleton<ISepecificinfo,SpecificInfo>();
-services.AddSingleton<IRepository<Doctor>, RepositoryInFile<Doctor>>();
-services.AddSingleton<IRepository<Patient>, RepositoryInFile<Patient>>();
+services.AddSingleton<IRepository<Doctor>, SqlRepository<Doctor>>();
+services.AddSingleton<IRepository<Patient>, SqlRepository<Patient>>();
 services.AddSingleton<IDataGenerator, DataGeneratorInFile>();
 services.AddSingleton<ICsvReader, CsvReader>();
+services.AddDbContext<SzpitalDbContext>(options=>options.UseSqlServer("Data Source=DESKTOP-LIC9HF3\\SQLEXPRESS;Initial Catalog=HospitalStorage;Integrated Security=True; TrustServerCertificate=True"));
 
 
 var serviceProvider = services.BuildServiceProvider();

@@ -6,5 +6,7 @@ namespace SzpitalAPP.Repository
         void Add(T item);
         void Remove(T item);
         void Save();
+        void Update(T item);
+        
     }
 }

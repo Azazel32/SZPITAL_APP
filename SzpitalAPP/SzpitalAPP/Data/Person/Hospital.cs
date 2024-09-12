@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-
-namespace SzpitalAPP.Components.CSVReader.Models
+namespace SzpitalAPP.Data.Person
 {
-    public class Hospital 
+    public class Hospital: HospitalBase
     {
-        
+        public int ID { get; set; }
         public string Nip { get; set; }
         public string Regon { get; set; }
         public string Desc { get; set; }
@@ -19,6 +17,5 @@ namespace SzpitalAPP.Components.CSVReader.Models
         public string ExpiryDate { get; set; }
         public string AwardingDate { get; set; }
         public string UrlAddress { get; set; }
-
     }
 }

@@ -16,12 +16,8 @@ namespace SzpitalAPP.Services
         private readonly IRepository<Doctor> _doctors;
         private readonly IRepository<Patient> _patients;
         private readonly ISepecificinfo _sepecificinfo;
-        private readonly SzpitalDbContext _szpitalDbContext;
-
-
-        public UserComunication(IRepository<Doctor> doctorsReposiotry, IRepository<Patient> patientsRepository, ISepecificinfo sepecificinfo, SzpitalDbContext szpitalDbContext)
+        public UserComunication(IRepository<Doctor> doctorsReposiotry, IRepository<Patient> patientsRepository, ISepecificinfo sepecificinfo)
         {
-            _szpitalDbContext = szpitalDbContext;
             _doctors = doctorsReposiotry;
             _patients = patientsRepository;
             _sepecificinfo = sepecificinfo;

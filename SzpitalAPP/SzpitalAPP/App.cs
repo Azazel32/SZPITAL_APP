@@ -16,14 +16,14 @@ namespace SzpitalAPP
         private readonly IDataGenerator _dataGenerator;
         private readonly IUserCommunication _userCommunication;
         private readonly ICsvReader _csvReader;
-        private readonly SzpitalDbContext _szpitalDbContext;
+        private readonly HospitalDbContext _hospitalDbContext;
 
-        public App(IDataGenerator dataGenerator, IUserCommunication userCommunication, ICsvReader csvReader, SzpitalDbContext szpitalDbContext)
+        public App(IDataGenerator dataGenerator, IUserCommunication userCommunication, ICsvReader csvReader, HospitalDbContext szpitalDbContext)
         {
             _userCommunication = userCommunication;
             _dataGenerator = dataGenerator;
             _csvReader = csvReader;
-            _szpitalDbContext = szpitalDbContext;
+            _hospitalDbContext = szpitalDbContext;
             szpitalDbContext.Database.EnsureCreated();
         }
         public void Run()
@@ -38,47 +38,22 @@ namespace SzpitalAPP
         }
         private void ClearDataBase()
         {
-            var hosptalFromDb = _szpitalDbContext.hospitals.ToList();
-            var patientsFromDb = _szpitalDbContext.patients.ToList();
-            var doctorsFromDb = _szpitalDbContext.doctors.ToList();
-            foreach (var item in hosptalFromDb)
-            {
-                _szpitalDbContext.hospitals.Remove(item);
-            }
+            var patientsFromDb = _hospitalDbContext.patients.ToList();
+            var doctorsFromDb = _hospitalDbContext.doctors.ToList();
             foreach (var item in patientsFromDb)
             {
-                _szpitalDbContext.patients.Remove(item);
+                _hospitalDbContext.patients.Remove(item);
             }
             foreach (var item in doctorsFromDb)
             {
-                _szpitalDbContext.doctors.Remove(item);
+                _hospitalDbContext.doctors.Remove(item);
             }
-            _szpitalDbContext.SaveChanges();
+            _hospitalDbContext.SaveChanges();
         }
         private void LoadDateToDB()
         {
-            var hosptalFromDb = _szpitalDbContext.hospitals.ToList();
-            var patientsFromDb = _szpitalDbContext.patients.ToList();
-            var doctorsFromDb = _szpitalDbContext.doctors.ToList();
-            if (hosptalFromDb.IsNullOrEmpty())
-            {
-                var hospitals = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");
-                foreach (var hospital in hospitals)
-                {
-                    _szpitalDbContext.hospitals.Add(new Hospital()
-                    {
-                        Nip = hospital.Nip,
-                        Regon = hospital.Regon,
-                        Desc = hospital.Desc,
-                        City = hospital.City,
-                        Mark = hospital.Mark,
-                        ExpiryDate = hospital.ExpiryDate,
-                        AwardingDate = hospital.AwardingDate,
-                        UrlAddress = hospital.UrlAddress
-                    });
-
-                }
-            }
+            var patientsFromDb = _hospitalDbContext.patients.ToList();
+            var doctorsFromDb = _hospitalDbContext.doctors.ToList();
             var PatientFile = "PatientRepository.json";
             if (File.Exists(PatientFile)&& patientsFromDb.IsNullOrEmpty())
             {
@@ -86,7 +61,7 @@ namespace SzpitalAPP
                 var patients = JsonSerializer.Deserialize<List<Patient>>(patientText);
                 foreach (var item in patients)
                 {
-                    _szpitalDbContext.Add(new Patient()
+                    _hospitalDbContext.Add(new Patient()
                     { 
                         Name = item.Name,
                         SurName = item.SurName,
@@ -94,8 +69,7 @@ namespace SzpitalAPP
                         Age = item.Age,
                         Branch = item.Branch,
                         City = item.City,
-                        Country = item.Country,
-
+                        Country = item.Country
                     });
                 }
             }
@@ -106,7 +80,7 @@ namespace SzpitalAPP
                 var doctors=JsonSerializer.Deserialize<List<Doctor>>(doctorText);
                 foreach(var item in doctors)
                 {
-                    _szpitalDbContext.Add(new Doctor()
+                    _hospitalDbContext.Add(new Doctor()
                     {
                         Name = item.Name,
                         SurName = item.SurName,
@@ -120,7 +94,7 @@ namespace SzpitalAPP
                 }
             }
 
-            _szpitalDbContext.SaveChanges();
+            _hospitalDbContext.SaveChanges();
         }
         private static void QueryXml()
         {

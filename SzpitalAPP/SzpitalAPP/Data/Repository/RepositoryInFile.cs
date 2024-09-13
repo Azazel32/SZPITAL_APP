@@ -75,9 +75,7 @@ namespace SzpitalAPP.Repository
                 Console.ResetColor();
             }
             return itemById;
-
         }
-        
         public IEnumerable<T> GetAll()
         {
             return _items.ToList();
@@ -91,7 +89,6 @@ namespace SzpitalAPP.Repository
         {
             if (File.Exists(file))
             {
-
                 var objectsSerialized = File.ReadAllText(file);
                 if (objectsSerialized != "")
                 {

@@ -19,7 +19,7 @@ services.AddSingleton<IRepository<Doctor>, SqlRepository<Doctor>>();
 services.AddSingleton<IRepository<Patient>, SqlRepository<Patient>>();
 services.AddSingleton<IDataGenerator, DataGeneratorInFile>();
 services.AddSingleton<ICsvReader, CsvReader>();
-services.AddDbContext<SzpitalDbContext>(options=>options.UseSqlServer("Data Source=DESKTOP-LIC9HF3\\SQLEXPRESS;Initial Catalog=HospitalStorage;Integrated Security=True; TrustServerCertificate=True"));
+services.AddDbContext<HospitalDbContext>(options=>options.UseSqlServer("Data Source=DESKTOP-LIC9HF3\\SQLEXPRESS;Initial Catalog=HospitalStorage;Integrated Security=True; TrustServerCertificate=True"));
 
 
 var serviceProvider = services.BuildServiceProvider();

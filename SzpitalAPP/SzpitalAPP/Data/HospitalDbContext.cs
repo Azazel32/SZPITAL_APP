@@ -4,14 +4,13 @@ using SzpitalAPP.Person;
 
 namespace SzpitalAPP.Data
 {
-    public class SzpitalDbContext : DbContext
+    public class HospitalDbContext : DbContext
     {
-        public SzpitalDbContext(DbContextOptions<SzpitalDbContext> options)
+        public HospitalDbContext(DbContextOptions<HospitalDbContext> options)
             :base(options) 
         {
         }
         public DbSet<Patient> patients { get; set; }
-        public DbSet<Hospital> hospitals { get; set;}
         public DbSet<Doctor> doctors { get; set; }
     }
 

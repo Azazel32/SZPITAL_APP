@@ -14,8 +14,8 @@ namespace SzpitalAPP.Components.DataProviders
     public class PatientProvider : IPatientProvider
     {
 
-        private readonly SzpitalDbContext _szpitalDbContext;
-        public PatientProvider(SzpitalDbContext szpitalDbContext)
+        private readonly HospitalDbContext _szpitalDbContext;
+        public PatientProvider(HospitalDbContext szpitalDbContext)
         {
 
             _szpitalDbContext = szpitalDbContext;

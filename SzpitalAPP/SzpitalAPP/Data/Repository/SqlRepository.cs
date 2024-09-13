@@ -10,33 +10,33 @@ namespace SzpitalAPP.Repository
     public class SqlRepository<T> : IRepository<T> where T : class, IPerson, new()
     {
         private readonly DbSet<T> _dbSet;
-        private readonly SzpitalDbContext _szpitalDbContext;
+        private readonly HospitalDbContext _hospitalDbContext;
         
 
         public event EventHandler<T>? ItemAdded;
         public event EventHandler<T>? ItemRemoved;
-        public SqlRepository(SzpitalDbContext dbContext)
+        public SqlRepository(HospitalDbContext dbContext)
         {
-           
-            _szpitalDbContext = dbContext;
-            _dbSet = _szpitalDbContext.Set<T>();
-            _szpitalDbContext.Database.EnsureCreated();
+
+            _hospitalDbContext = dbContext;
+            _dbSet = _hospitalDbContext.Set<T>();
+            _hospitalDbContext.Database.EnsureCreated();
         }
         public void Add(T item)
         {
             _dbSet.Add(item);
-            _szpitalDbContext.SaveChanges();
+            _hospitalDbContext.SaveChanges();
             ItemAdded?.Invoke(this, item);
         }
         public void Remove(T item)
         {
             _dbSet.Remove(item);
-            _szpitalDbContext?.SaveChanges();
+            _hospitalDbContext?.SaveChanges();
             ItemRemoved?.Invoke(this, item);
         }
         public void Save()
         {
-            _szpitalDbContext.SaveChanges();
+            _hospitalDbContext.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
@@ -61,7 +61,7 @@ namespace SzpitalAPP.Repository
         public void Update(T item) 
         {
             _dbSet.Update(item);
-            _szpitalDbContext.SaveChanges();
+            _hospitalDbContext.SaveChanges();
         }
         
     }

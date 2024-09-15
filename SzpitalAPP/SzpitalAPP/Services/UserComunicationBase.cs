@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SzpitalAPP.Services
 {
-    public abstract class UserCommunicationBase : IUserCommunication
+    public abstract class UserCommunicationBase 
     {
-        public abstract void Task();
+        
         protected void WritelineColor(string text, ConsoleColor foregroundColor, ConsoleColor backgroundColor = default)
         {
             Console.ForegroundColor = foregroundColor;

@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Query.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SzpitalAPP.Data;
-using SzpitalAPP.Data.Person;
+﻿using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 
@@ -22,18 +15,18 @@ namespace SzpitalAPP.Services
             _patients = patientsRepository;
             _sepecificinfo = sepecificinfo;
         }
-        public override void Task()
+        public void Task()
         {
             Console.WriteLine("Witaj w programie do obslugi bazy danych szpitala. Mozesz dodawac i usuwac dane o pracownikach i pacjentach!!!");
             bool exitKey = false;
             while (!exitKey)
             {
                 Console.WriteLine("1.Add new person");
-                Console.WriteLine("2.Remove person from memory");
+                Console.WriteLine("2.Remove person");
                 Console.WriteLine("3.Find person by ID");
                 Console.WriteLine("4.Show all person");
                 Console.WriteLine("5.Get specific inforamtion");
-                Console.WriteLine("6.Edit info");
+                Console.WriteLine("6.Edit information");
                 Console.WriteLine("q wyjscie");
                 var userInput = GetInputFromUser("What do you want to do? \n").ToUpper();
                 switch (userInput)
@@ -288,13 +281,11 @@ namespace SzpitalAPP.Services
                         _doctors.Save();
                         _patients.Save();
                         WritelineColor("Changes successfully saved.", ConsoleColor.Green);
-                        exitKey = true;
-                        return exitKey;
+                        return exitKey=true;
                     }
                     else if (choice == "N")
                     {
-                        exitKey = true;
-                        return exitKey;
+                        return exitKey=true;
                     }
                     else
                     {

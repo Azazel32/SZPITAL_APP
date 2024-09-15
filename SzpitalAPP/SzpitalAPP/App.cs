@@ -34,30 +34,16 @@ namespace SzpitalAPP
             _dataGenerator.AddPatients();
             LoadDateToDB();
             _userCommunication.Task();
-            //ClearDataBase();
         }
-        private void ClearDataBase()
-        {
-            var patientsFromDb = _hospitalDbContext.patients.ToList();
-            var doctorsFromDb = _hospitalDbContext.doctors.ToList();
-            foreach (var item in patientsFromDb)
-            {
-                _hospitalDbContext.patients.Remove(item);
-            }
-            foreach (var item in doctorsFromDb)
-            {
-                _hospitalDbContext.doctors.Remove(item);
-            }
-            _hospitalDbContext.SaveChanges();
-        }
+        
         private void LoadDateToDB()
         {
             var patientsFromDb = _hospitalDbContext.patients.ToList();
             var doctorsFromDb = _hospitalDbContext.doctors.ToList();
-            var PatientFile = "PatientRepository.json";
-            if (File.Exists(PatientFile)&& patientsFromDb.IsNullOrEmpty())
+            var PatientFileName = "PatientRepository.json";
+            if (File.Exists(PatientFileName)&& patientsFromDb.IsNullOrEmpty())
             {
-                var patientText = File.ReadAllText(PatientFile);
+                var patientText = File.ReadAllText(PatientFileName);
                 var patients = JsonSerializer.Deserialize<List<Patient>>(patientText);
                 foreach (var item in patients)
                 {
@@ -73,10 +59,10 @@ namespace SzpitalAPP
                     });
                 }
             }
-            var DoctorFile = "DoctorRepository.json";
-            if (File.Exists(DoctorFile)&& doctorsFromDb.IsNullOrEmpty())
+            var DoctorFileName = "DoctorRepository.json";
+            if (File.Exists(DoctorFileName)&& doctorsFromDb.IsNullOrEmpty())
             {
-                var doctorText =File.ReadAllText(DoctorFile);
+                var doctorText =File.ReadAllText(DoctorFileName);
                 var doctors=JsonSerializer.Deserialize<List<Doctor>>(doctorText);
                 foreach(var item in doctors)
                 {
@@ -107,10 +93,10 @@ namespace SzpitalAPP
         }
         private void CreateXml()
         {
-            var hospital = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");
-            var local = _csvReader.ProcesedLocal("Resources\\Files\\local.csv");
+            var processedHospital = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");
+            var processedLocalizaton = _csvReader.ProcesedLocal("Resources\\Files\\local.csv");
 
-            var groupJoin = hospital.GroupJoin(local,
+            var groupJoin = processedHospital.GroupJoin(processedLocalizaton,
                 hospital => hospital.City,
                 local => local.City,
                 (key, g) =>
@@ -124,7 +110,7 @@ namespace SzpitalAPP
                 Console.WriteLine($"Miasto: {group.local.City}");
                 Console.WriteLine($"Ilosc:{group.hospital.Count()}");
             }
-            var groups = hospital.GroupBy(x => x.City)
+            var groups = processedHospital.GroupBy(x => x.City)
                 .Select(g => new
                 {
                     Name = g.Key,
@@ -139,7 +125,7 @@ namespace SzpitalAPP
                new XAttribute("Ilość", x.Count),
                new XAttribute("Miasto", x.Name)
                    )));
-            var hospitalInCity = hospital.Join(local, x => x.City, x => x.City, (hospital, local) => new
+            var hospitalInCity = processedHospital.Join(processedLocalizaton, x => x.City, x => x.City, (hospital, local) => new
             {
                 local.State,
                 hospital.Desc,
@@ -152,7 +138,7 @@ namespace SzpitalAPP
                 new XAttribute("Desc", x.Desc),
                 new XAttribute("Nip", x.Nip))));
             var document2 = new XDocument();
-            var hospitals = new XElement("Szpitale", hospital
+            var hospitals = new XElement("Szpitale", processedHospital
                 .Select(g =>
                 new XElement("Hospital",
                 new XAttribute("City", g.City),

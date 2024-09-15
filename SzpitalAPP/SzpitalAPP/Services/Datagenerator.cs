@@ -8,7 +8,7 @@ namespace SzpitalAPP.Services
     {
         public abstract void AddDoctors();
         public abstract void AddPatients();
-        protected IEnumerable<Doctor> GetDoctors()
+        protected IEnumerable<Doctor> GenerateDoctors()
         {
             var doctors = new List<Doctor>()
             {
@@ -72,7 +72,7 @@ namespace SzpitalAPP.Services
             
             return doctors;
         }
-        protected IEnumerable<Patient> GetPatients() 
+        protected IEnumerable<Patient> GeneratePatients() 
         {
             var patients = new List<Patient>()
             {

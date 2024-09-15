@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Text.Json;
-using SzpitalAPP.Components.CSVReader;
 using SzpitalAPP.Data;
-using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
 namespace SzpitalAPP.Repository
 {
@@ -11,8 +7,6 @@ namespace SzpitalAPP.Repository
     {
         private readonly DbSet<T> _dbSet;
         private readonly HospitalDbContext _hospitalDbContext;
-        
-
         public event EventHandler<T>? ItemAdded;
         public event EventHandler<T>? ItemRemoved;
         public SqlRepository(HospitalDbContext dbContext)
@@ -63,6 +57,5 @@ namespace SzpitalAPP.Repository
             _dbSet.Update(item);
             _hospitalDbContext.SaveChanges();
         }
-        
     }
 }

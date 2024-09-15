@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using SzpitalAPP.Components.DataProviders;
-using SzpitalAPP.Person;
+
 
 namespace SzpitalAPP.Services
 {
@@ -127,11 +123,6 @@ namespace SzpitalAPP.Services
 
                 }
             }
-        }
-        
-        public override void Task()
-        {
-            throw new NotImplementedException();
         }
         public void GetUniqueNationalityForDoctor()
         {
@@ -271,7 +262,5 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
-
     }
-
 }

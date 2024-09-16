@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SzpitalAPP.Components.CSVReader.Extesions;
+﻿using SzpitalAPP.Components.CSVReader.Extesions;
 using SzpitalAPP.Components.CSVReader.Models;
 
 namespace SzpitalAPP.Components.CSVReader

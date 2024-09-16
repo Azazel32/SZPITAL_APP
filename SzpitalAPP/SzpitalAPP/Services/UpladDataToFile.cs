@@ -1,13 +1,10 @@
-﻿
-using SzpitalAPP.Person;
+﻿using SzpitalAPP.Person;
 using SzpitalAPP.Repository;
 using SzpitalAPP.Repository.Extensions;
-
 namespace SzpitalAPP.Services
 {
     public class UploadDataToFile : DataGenerator
     {
-        
         private readonly IRepository<Doctor> _doctors;
         private readonly IRepository<Patient> _patients;
         public UploadDataToFile(IRepository<Doctor> employeeRepository,IRepository<Patient> patientRepository) 
@@ -24,6 +21,7 @@ namespace SzpitalAPP.Services
                 _doctors.AddBatch(doctors);
             }
         }
+
         public override void AddPatients()
         {
             _patients.Read();
@@ -32,7 +30,6 @@ namespace SzpitalAPP.Services
                 var patients =GeneratePatients();    
                 _patients.AddBatch(patients);
             }
-
         }
     }
 }

@@ -1,7 +1,5 @@
-﻿
-using SzpitalAPP.Data.Person;
+﻿using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
-
 namespace SzpitalAPP.Services
 {
     public abstract class DataGenerator : IDataGenerator
@@ -68,10 +66,9 @@ namespace SzpitalAPP.Services
                     Salary=15_000,
                 }
             };
-            
-            
             return doctors;
         }
+
         protected IEnumerable<Patient> GeneratePatients() 
         {
             var patients = new List<Patient>()
@@ -116,10 +113,8 @@ namespace SzpitalAPP.Services
                     Country="Polska",
                     Branch=Branch.Cardiology
                 }
-
             };  
             return patients;
         }
     }
-    
 }

@@ -1,12 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Xml.Linq;
 using SzpitalAPP.Components.CSVReader;
 using SzpitalAPP.Data;
-using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
-using SzpitalAPP.Repository;
 using SzpitalAPP.Services;
 
 namespace SzpitalAPP
@@ -17,7 +14,6 @@ namespace SzpitalAPP
         private readonly IUserCommunication _userCommunication;
         private readonly ICsvReader _csvReader;
         private readonly HospitalDbContext _hospitalDbContext;
-
         public App(IDataGenerator dataGenerator, IUserCommunication userCommunication, ICsvReader csvReader, HospitalDbContext szpitalDbContext)
         {
             _userCommunication = userCommunication;
@@ -38,8 +34,8 @@ namespace SzpitalAPP
         
         private void LoadDateToDB()
         {
-            var patientsFromDb = _hospitalDbContext.patients.ToList();
-            var doctorsFromDb = _hospitalDbContext.doctors.ToList();
+            var patientsFromDb = _hospitalDbContext.Patients.ToList();
+            var doctorsFromDb = _hospitalDbContext.Doctors.ToList();
             var PatientFileName = "PatientRepository.json";
             if (File.Exists(PatientFileName)&& patientsFromDb.IsNullOrEmpty())
             {
@@ -82,6 +78,7 @@ namespace SzpitalAPP
 
             _hospitalDbContext.SaveChanges();
         }
+
         private static void QueryXml()
         {
             var document = XDocument.Load("HospitalInCity.xml");
@@ -91,6 +88,7 @@ namespace SzpitalAPP
                 Console.WriteLine(item);
             }
         }
+
         private void CreateXml()
         {
             var processedHospital = _csvReader.ProcessedHospitals("Resources\\Files\\hospitals.csv");

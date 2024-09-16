@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SzpitalAPP.Data.Person;
 using SzpitalAPP.Person;
-
 namespace SzpitalAPP.Data
 {
     public class HospitalDbContext : DbContext
@@ -10,9 +8,7 @@ namespace SzpitalAPP.Data
             :base(options) 
         {
         }
-        public DbSet<Patient> patients { get; set; }
-        public DbSet<Doctor> doctors { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
     }
-
- 
 }

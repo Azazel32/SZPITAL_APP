@@ -13,19 +13,17 @@ namespace SzpitalAPP.Repository
         private int lastUsedId = 1;
         public event EventHandler<T>? ItemAdded;
         public event EventHandler<T>? ItemRemoved;
-
-
         public RepositoryInFile()
         {
-
-            
             this.ItemAdded += EventItemAdded;
             this.ItemRemoved += EventItemRemoved;
         }
+
         public void Update(T item)
         {
             this._items.Add(item);
         }
+
         void EventItemAdded(object? sender, T item)
         {
             using (StreamWriter sw = File.AppendText(LogFilePath))
@@ -39,7 +37,6 @@ namespace SzpitalAPP.Repository
             using (StreamWriter sw = File.AppendText(LogFilePath))
             {
                 sw.WriteLine($"{DateTime.Now} - Removed {item.ToString}");
-
             }
         }
 
@@ -65,6 +62,7 @@ namespace SzpitalAPP.Repository
             _items.Add(item);
             ItemAdded?.Invoke(this, item);
         }
+
         public T? GetDataById(int id)
         {
             var itemById = _items.SingleOrDefault(x => x.Id == id);
@@ -80,11 +78,13 @@ namespace SzpitalAPP.Repository
         {
             return _items.ToList();
         }
+
         public void Remove(T item)
         {
             _items.Remove(item);
             ItemRemoved?.Invoke(this, item);
         }
+
         public IEnumerable<T> Read()
         {
             if (File.Exists(file))
@@ -109,5 +109,4 @@ namespace SzpitalAPP.Repository
             return _items.Count;
         }
     }
-
 }

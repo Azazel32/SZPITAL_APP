@@ -148,9 +148,9 @@ namespace SzpitalAPP.Services
                     }
                     repository.Update(IdToUpdate);
                     repository.Save();
-                    
                 }
             }
+
             void AddDoctor()
             {
                 var name = GetInputFromUser("Name:");
@@ -183,6 +183,7 @@ namespace SzpitalAPP.Services
                     }
                 }
             }
+
             void AddPatient()
             {
                 var name = GetInputFromUser("Name:");
@@ -213,6 +214,7 @@ namespace SzpitalAPP.Services
                     }
                 }
             }
+
             T? GetPersonById<T>(IRepository<T> repository) where T : class, IPerson
             {
                 while (true)
@@ -235,6 +237,7 @@ namespace SzpitalAPP.Services
                     }
                 }
             }
+
             void RemovePerson<T>(IRepository<T> repository) where T : class, IPerson
             {
                 var idToRemove = GetPersonById(repository);
@@ -262,6 +265,7 @@ namespace SzpitalAPP.Services
 
                 }
             }
+
             void WriteAllPerson<T>(IRepository<T> repository) where T : class, IPerson
             {
                 WritelineColor($"-----All{typeof(T).Name}", ConsoleColor.Yellow);
@@ -271,6 +275,7 @@ namespace SzpitalAPP.Services
                     Console.WriteLine(item);
                 }
             }
+
             bool CloseAppSaveChanges()
             {
                 while (true)

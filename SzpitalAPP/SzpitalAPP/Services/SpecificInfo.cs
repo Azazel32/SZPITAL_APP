@@ -8,15 +8,11 @@ namespace SzpitalAPP.Services
     {
         private readonly IDoctorProvider _doctorProvider;
         private readonly IPatientProvider _patientProvider;
-        
-        
         public SpecificInfo(IDoctorProvider doctorProvider, IPatientProvider patientProvider)
         {
             _doctorProvider = doctorProvider;
             _patientProvider = patientProvider;
-            
         }
-        
         public void GetspecificInfoForDoctor()
         {
             bool closeLoop = false;
@@ -39,7 +35,6 @@ namespace SzpitalAPP.Services
                 {
                     case "1":
                         GetUniqueNationalityForDoctor();
-
                         break;
                     case "2":
                         GetUniqueCityForDoctor();
@@ -71,10 +66,10 @@ namespace SzpitalAPP.Services
                     default:
                         WritelineColor("invalid Operation", ConsoleColor.Red);
                         continue;
-
                 }
             }
         }
+
         public void GetspecificInfoForPatient()
         {
             bool closeLoop = false;
@@ -89,7 +84,6 @@ namespace SzpitalAPP.Services
                     "6. Order patients by branch\n" +
                     "7. Order unique branch\n" +
                     "q. exit\n", ConsoleColor.Cyan);
-
                 var choice = GetInputFromUser("Choose what you what do:").ToUpper();
                 switch (choice)
                 {
@@ -120,10 +114,10 @@ namespace SzpitalAPP.Services
                     default:
                         WritelineColor("invalid Operation", ConsoleColor.Red);
                         continue;
-
                 }
             }
         }
+
         public void GetUniqueNationalityForDoctor()
         {
             WritelineColor("Unique Nationality", ConsoleColor.Green);
@@ -133,6 +127,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetUniqueCityForDoctor()
         {
             WritelineColor("Unique City", ConsoleColor.Green);
@@ -142,6 +137,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetMaxDoctorSalary() 
         {
             WritelineColor("Max Doctor Salary", ConsoleColor.Green);
@@ -149,6 +145,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(MaxSalary);
             
         }
+
         public void GetDoctorsByAge() 
         {
             WritelineColor("Doctors by age", ConsoleColor.Green);
@@ -158,6 +155,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetDoctorsBySalary() 
         {
             WritelineColor("Doctors by Salary", ConsoleColor.Green);
@@ -167,6 +165,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetDoctorsByCountry()
         {
             WritelineColor("Doctors by city", ConsoleColor.Green);
@@ -176,6 +175,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetDoctorsByName() 
         {
             WritelineColor("Doctors by name", ConsoleColor.Green);
@@ -185,6 +185,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetDoctorsByBranch() 
         {
             WritelineColor("Doctors by branch", ConsoleColor.Green);
@@ -194,6 +195,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetuniqueBranchForDoctor() 
         {
             WritelineColor("Unique branch", ConsoleColor.Green);
@@ -203,6 +205,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetUniqueBranchForPatients()
         {
             WritelineColor("Unique branch", ConsoleColor.Green);
@@ -212,6 +215,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetUniqueNationalityForPatients()
         {
             WritelineColor("Unqiue Country",ConsoleColor.Green);
@@ -219,6 +223,7 @@ namespace SzpitalAPP.Services
             foreach (var item in uniqueCountry)
             { Console.WriteLine(item); }
         }
+
         public void GetUniqueCityForPatients()
         {
             WritelineColor("Unqiue City", ConsoleColor.Green);
@@ -226,6 +231,7 @@ namespace SzpitalAPP.Services
             foreach (var item in uniqueCity)
             { Console.WriteLine(item); }
         }
+
         public void GetPatientsByName()
         {
             WritelineColor("Patinets by Name", ConsoleColor.Green);
@@ -235,6 +241,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetPatientsByAge()
         {
             WritelineColor("Patients by Age", ConsoleColor.Green);
@@ -244,6 +251,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetPatientsByBranch()
         {
             WritelineColor("Patients by branch", ConsoleColor.Green);
@@ -253,6 +261,7 @@ namespace SzpitalAPP.Services
                 Console.WriteLine(item);
             }
         }
+
         public void GetPatientsByCountry()
         {
             WritelineColor("Patients by Country", ConsoleColor.Green);

@@ -11,7 +11,6 @@ namespace SzpitalAPP.Repository
         public event EventHandler<T>? ItemRemoved;
         public SqlRepository(HospitalDbContext dbContext)
         {
-
             _hospitalDbContext = dbContext;
             _dbSet = _hospitalDbContext.Set<T>();
             _hospitalDbContext.Database.EnsureCreated();
@@ -22,12 +21,14 @@ namespace SzpitalAPP.Repository
             _hospitalDbContext.SaveChanges();
             ItemAdded?.Invoke(this, item);
         }
+
         public void Remove(T item)
         {
             _dbSet.Remove(item);
             _hospitalDbContext?.SaveChanges();
             ItemRemoved?.Invoke(this, item);
         }
+
         public void Save()
         {
             _hospitalDbContext.SaveChanges();
@@ -52,6 +53,7 @@ namespace SzpitalAPP.Repository
         {
             return _dbSet.Find(id);
         }
+
         public void Update(T item) 
         {
             _dbSet.Update(item);
